@@ -6,7 +6,7 @@ const serviceLinks = [
   { label: "Event Coverage & Highlight Reels", accent: false },
   { label: "YouTube Video Editing", accent: false },
   { label: "UGC Video Editing", accent: true },
-  { label: "Motion Graphics & Titles", accent: true },
+  { label: "Motion Graphics & Titlles", accent: true },
 ];
 
 interface NavigationProps {
@@ -85,9 +85,8 @@ export function Navigation({ onNavigate }: NavigationProps) {
                   <a
                     href="#"
                     onClick={() => setServicesOpen(false)}
-                    className={`block px-5 py-2.5 text-sm leading-snug transition-colors hover:bg-white/10 ${
-                      s.accent ? "text-[#FF6B35] font-medium" : "text-white/90"
-                    }`}
+                    className={`block px-5 py-2.5 text-sm leading-snug transition-colors hover:bg-white/10 ${s.accent ? "text-[#FF6B35] font-medium" : "text-white/90"
+                      }`}
                   >
                     {s.label}
                   </a>

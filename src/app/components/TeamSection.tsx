@@ -1,16 +1,17 @@
 import { motion } from "motion/react";
 
 const team = [
-  { name: "Tajinder Singh", role: "FOUNDER / DIRECTOR", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" },
-  { name: "Gurjinder Singh", role: "CEO", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Manpreet Singh", role: "VIDEO TEAM HEAD", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face" },
+  { name: "Tajinder Singh", role: "FOUNDER / DIRECTOR", img: "https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1781166261/tajinder_sir_1_vmom1m.webp" },
+  { name: "Gurjinder Singh", role: "CEO", img: "https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1781166272/gujindersir_z7i6ef.webp" },
+  { name: "Manpreet Singh", role: "VIDEO TEAM HEAD", img: "https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1779999375/manpreet_image_shcmgs.webp" },
+  { name: "Abhishek Maurya", role: "VIDEO EDITOR", img: "https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1779999372/Abhi_image_odv2sz.jpg" },
   { name: "Akshansh", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&crop=face" },
   { name: "Lakshay Seth", role: "VIDEO PRODUCTION HEAD", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face" },
   { name: "Akshayajit Singh", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&crop=face" },
   { name: "Sahagjit Kaur", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=400&h=500&fit=crop&crop=face" },
   { name: "Dimple Sharma", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop&crop=face" },
-  { name: "Abhishek", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=400&h=500&fit=crop&crop=face" },
-  { name: "Abhishek Maurya", role: "VIDEO EDITOR", img: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=500&fit=crop&crop=face" },
+  { name: "Abhishek", role: "VIDEO EDITOR", img: "https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1780570583/Abh_img_b1mzqa.png" },
+
 ];
 
 export function TeamSection() {
@@ -33,13 +34,18 @@ export function TeamSection() {
               across India and UAE, all obsessed with making your content go
               further.
             </p>
-            <button className="flex items-center gap-2 text-sm font-semibold text-foreground border border-foreground rounded-full px-6 py-3 hover:bg-foreground hover:text-background transition-colors">
+            <a
+              href="https://wa.me/918559060809?text=Hi%2C%20I%27d%20love%20to%20join%20your%20crew!"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-foreground border border-foreground rounded-full px-6 py-3 hover:bg-foreground hover:text-background transition-colors"
+            >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
                 <path d="M6 8H10M10 8L8 6M10 8L8 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               JOIN OUR CREW
-            </button>
+            </a>
           </motion.div>
 
           {/* Top two featured members */}
@@ -56,6 +62,8 @@ export function TeamSection() {
                 <img
                   src={member.img}
                   alt={member.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
@@ -81,6 +89,8 @@ export function TeamSection() {
               <img
                 src={member.img}
                 alt={member.name}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-48 md:h-56 object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">

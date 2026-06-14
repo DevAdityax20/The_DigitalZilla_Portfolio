@@ -1,5 +1,3 @@
-import { motion } from "motion/react";
-
 const clients = [
   {
     name: "RXN",
@@ -96,31 +94,44 @@ const clients = [
   },
 ];
 
+/* ── CSS-only marquee — zero JS overhead, runs on compositor thread ── */
+const marqueeCSS = `
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-left  { animation: marquee-left  32s linear infinite; }
+.marquee-right { animation: marquee-right 32s linear infinite; }
+`;
+
 function LogoTrack({ reverse = false }: { reverse?: boolean }) {
-  const doubled = [...clients, ...clients, ...clients, ...clients];
+  // Only 2x duplication needed for a seamless CSS loop
+  const doubled = [...clients, ...clients];
 
   return (
     <div className="flex overflow-hidden">
-      <motion.div
-        className="flex items-center gap-20 flex-shrink-0"
-        animate={{ x: reverse ? ["-50%", "0%"] : ["0%", "-50%"] }}
-        transition={{
-          duration: 32,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
-        }}
-        style={{ willChange: "transform" }}
+      <div
+        className={`marquee-track ${reverse ? 'marquee-right' : 'marquee-left'}`}
       >
         {doubled.map((client, i) => (
           <div
             key={i}
             className="flex-shrink-0 text-foreground/25 hover:text-foreground/65 transition-colors duration-300 cursor-default select-none"
+            style={{ marginRight: 80 }}
           >
             {client.svg}
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -128,6 +139,9 @@ function LogoTrack({ reverse = false }: { reverse?: boolean }) {
 export function LogoBanner() {
   return (
     <section className="py-8 border-y border-border/40 overflow-hidden bg-background relative">
+      {/* Inject CSS keyframes once */}
+      <style>{marqueeCSS}</style>
+
       {/* Gradient fade masks */}
       <div
         className="absolute left-0 top-0 bottom-0 w-28 z-10 pointer-events-none"

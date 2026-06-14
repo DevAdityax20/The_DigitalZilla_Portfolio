@@ -1,16 +1,17 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { CarouselCard } from './CarouselCard';
 
 const ITEMS = [
-  { video: '', label: 'Brand Film' },
-  { video: '', label: 'CEO Story' },
-  { video: '', label: 'Product Reel' },
-  { video: '', label: 'Edit Suite' },
-  { video: '', label: 'Event Coverage' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779998929/GODREJ_2_5_acbyae.mp4', label: 'Brand Film' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779998989/Demo-1_rd74ga.mp4', label: 'Brand Film' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779999008/coc_2_uhhnez.mp4', label: 'CEO Story' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1780394348/shrey_ium3kv.mp4', label: 'Product Reel' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1780555908/invincible-vid_oyxfsa.mp4', label: 'Edit Suite' },
+  { video: 'https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1780862050/images_tyhtfu.jpg', label: 'Event Coverage' },
   { video: 'https://res.cloudinary.com/dogyg03f7/video/upload/v1781082888/rxn_neww_2_wdwm0u.mp4', label: 'BTS Reel' },
   { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779998914/NX_bag_-final_2_s3gbzq.mp4', label: 'Social Media' },
-  { video: '', label: 'Shorts Series' },
-  { video: '', label: 'Sports Action' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779999002/cambridge-_1_1_dbbu1l.mp4', label: 'Shorts Series' },
+  { video: 'https://res.cloudinary.com/dmloakbty/video/upload/q_auto/f_auto/v1779999023/clove_2_2_1_rp5hal.mp4', label: 'Sports Action' },
 ];
 
 // ── Responsive config per breakpoint ──────────────────────────────────────────
@@ -98,21 +99,33 @@ export function Carousel3D() {
   const lastDragTime = useRef(0);
   const momentumRef = useRef<number>();
   const autoRef = useRef<number>();
+  const lastFrameTime = useRef(0);
 
   const n = ITEMS.length;
   const wrap = (v: number) => ((v % n) + n) % n;
 
-  const startAuto = useCallback(() => {
-    stopAuto();
-    autoRef.current = window.setInterval(() => {
-      centerRef.current = wrap(centerRef.current + 0.012);
-      forceRender(x => x + 1);
-    }, 30);
+  const stopAuto = useCallback(() => {
+    if (autoRef.current) {
+      cancelAnimationFrame(autoRef.current);
+      autoRef.current = undefined;
+    }
   }, []);
 
-  const stopAuto = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-  };
+  const startAuto = useCallback(() => {
+    stopAuto();
+    lastFrameTime.current = 0;
+    const tick = (time: number) => {
+      if (lastFrameTime.current) {
+        const dt = time - lastFrameTime.current;
+        // ~0.4 units/sec auto-scroll, dt-scaled for consistent speed
+        centerRef.current = wrap(centerRef.current + 0.0004 * dt);
+        forceRender(x => x + 1);
+      }
+      lastFrameTime.current = time;
+      autoRef.current = requestAnimationFrame(tick);
+    };
+    autoRef.current = requestAnimationFrame(tick);
+  }, []);
 
   useEffect(() => {
     startAuto();
@@ -120,7 +133,7 @@ export function Carousel3D() {
       stopAuto();
       if (momentumRef.current) cancelAnimationFrame(momentumRef.current);
     };
-  }, [startAuto]);
+  }, [startAuto, stopAuto]);
 
   const onDragStart = (clientX: number) => {
     stopAuto();
@@ -160,15 +173,18 @@ export function Carousel3D() {
     momentumRef.current = requestAnimationFrame(decay);
   };
 
-  // Build sorted render list
-  const cards = Array.from({ length: n }, (_, i) => {
-    let rel = i - centerRef.current;
-    if (rel > n / 2) rel -= n;
-    if (rel < -n / 2) rel += n;
-    return { i, rel };
-  })
-    .filter(({ rel }) => Math.abs(rel) <= cfg.visibleRange)
-    .sort((a, b) => Math.abs(b.rel) - Math.abs(a.rel));
+  // Build sorted render list – memoize the center snap to avoid rebuilding every pixel
+  const currentCenter = centerRef.current;
+  const cards = useMemo(() => {
+    return Array.from({ length: n }, (_, i) => {
+      let rel = i - currentCenter;
+      if (rel > n / 2) rel -= n;
+      if (rel < -n / 2) rel += n;
+      return { i, rel };
+    })
+      .filter(({ rel }) => Math.abs(rel) <= cfg.visibleRange)
+      .sort((a, b) => Math.abs(b.rel) - Math.abs(a.rel));
+  }, [currentCenter, n, cfg.visibleRange]);
 
   // Smooth multi-stop fade mask gradient
   const maskGradientR = `linear-gradient(to right,
@@ -226,6 +242,7 @@ export function Carousel3D() {
                 relPos={rel}
                 cardW={cfg.cardW}
                 cardH={cfg.cardH}
+                shouldPlay={absRel < 1.5 && expandedIndex === null}
                 onExpand={(idx) => { stopAuto(); setExpandedIndex(idx); }}
                 style={{
                   transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${scale})`,
@@ -254,7 +271,7 @@ export function Carousel3D() {
       {/* Expanded lightbox modal */}
       {expandedIndex !== null && ITEMS[expandedIndex]?.video && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90"
           onClick={() => { setExpandedIndex(null); startAuto(); setModalMuted(false); }}
         >
           <div
@@ -277,7 +294,7 @@ export function Carousel3D() {
                 setModalMuted(m => !m);
                 if (modalVideoRef.current) modalVideoRef.current.muted = !modalVideoRef.current.muted;
               }}
-              className="absolute bottom-4 left-4 w-10 h-10 rounded-full flex items-center justify-center bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/15 transition-colors"
+              className="absolute bottom-4 left-4 w-10 h-10 rounded-full flex items-center justify-center bg-black/60 hover:bg-black/80 border border-white/15 transition-colors"
               aria-label={modalMuted ? 'Unmute' : 'Mute'}
             >
               {modalMuted ? (
@@ -298,7 +315,7 @@ export function Carousel3D() {
             {/* Close button */}
             <button
               onClick={() => { setExpandedIndex(null); startAuto(); setModalMuted(false); }}
-              className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/15 transition-colors"
+              className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center bg-black/60 hover:bg-black/80 border border-white/15 transition-colors"
               aria-label="Close"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
@@ -308,7 +325,7 @@ export function Carousel3D() {
             </button>
 
             {/* Label */}
-            <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/15">
+            <div className="absolute bottom-4 right-4 bg-black/60 rounded-full px-4 py-1.5 border border-white/15">
               <span className="text-white text-xs font-semibold tracking-wide">{ITEMS[expandedIndex].label}</span>
             </div>
           </div>

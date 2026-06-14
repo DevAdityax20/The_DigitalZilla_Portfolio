@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface CarouselCardProps {
   video: string;
@@ -7,11 +7,12 @@ interface CarouselCardProps {
   relPos: number;
   cardW: number;
   cardH: number;
+  shouldPlay?: boolean;
   style?: React.CSSProperties;
   onExpand?: (index: number) => void;
 }
 
-export function CarouselCard({ video, label, index, relPos, cardW, cardH, style, onExpand }: CarouselCardProps) {
+export function CarouselCard({ video, label, index, relPos, cardW, cardH, shouldPlay = true, style, onExpand }: CarouselCardProps) {
   const absRel = Math.abs(relPos);
   const isFront = absRel < 0.6;
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -24,6 +25,17 @@ export function CarouselCard({ video, label, index, relPos, cardW, cardH, style,
       setMuted(videoRef.current.muted);
     }
   };
+
+  // Pause / resume videos based on visibility to save CPU & bandwidth
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (shouldPlay) {
+      el.play().catch(() => {});
+    } else {
+      el.pause();
+    }
+  }, [shouldPlay]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,10 +65,11 @@ export function CarouselCard({ video, label, index, relPos, cardW, cardH, style,
           ref={videoRef}
           src={video}
           className="w-full h-full object-cover pointer-events-none"
-          autoPlay
+          autoPlay={shouldPlay}
           muted
           loop
           playsInline
+          preload={shouldPlay ? 'auto' : 'none'}
           draggable={false}
         />
       ) : (

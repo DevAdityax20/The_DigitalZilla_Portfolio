@@ -92,6 +92,8 @@ export function PortfolioSection() {
         <img
           src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=500&fit=crop"
           alt="Our Portfolio"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
         />
         {/* Dark gradient overlay */}
@@ -121,7 +123,7 @@ export function PortfolioSection() {
       </div>
 
       {/* Filter tabs */}
-      <div className="flex items-center justify-center gap-2 flex-wrap px-6 py-8 bg-white border-b border-gray-100">
+      <div className="flex items-center justify-center gap-2 flex-wrap px-6 py-8 bg-background border-b border-border">
         {categories.map((cat) => {
           const active = cat === activeCategory;
           return (
@@ -141,7 +143,7 @@ export function PortfolioSection() {
       </div>
 
       {/* Project grid */}
-      <div className="px-6 py-10 bg-[#F9F9F7]">
+      <div className="px-6 py-10 bg-muted">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             layout
@@ -156,12 +158,14 @@ export function PortfolioSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
                   transition={{ duration: 0.35 }}
-                  className="group relative rounded-2xl overflow-hidden bg-white shadow-sm cursor-pointer"
+                  className="group relative rounded-2xl overflow-hidden bg-card shadow-sm cursor-pointer"
                 >
                   <div className="relative overflow-hidden aspect-[4/3]">
                     <img
                       src={project.img}
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Hover overlay */}

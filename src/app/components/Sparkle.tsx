@@ -1,5 +1,3 @@
-import { motion } from 'motion/react';
-
 interface SparkleProps {
   top?: string;
   left?: string;
@@ -10,18 +8,11 @@ interface SparkleProps {
 
 export function Sparkle({ top, left, right, bottom, delay = 0 }: SparkleProps) {
   return (
-    <motion.div
-      className="absolute w-6 h-6"
-      style={{ top, left, right, bottom }}
-      animate={{
-        rotate: [0, 180, 360],
-        scale: [1, 1.2, 1],
-      }}
-      transition={{
-        duration: 3,
-        repeat: Infinity,
-        delay,
-        ease: 'easeInOut',
+    <div
+      className="absolute w-6 h-6 sparkle-anim"
+      style={{
+        top, left, right, bottom,
+        animationDelay: `${delay}s`,
       }}
     >
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +25,17 @@ export function Sparkle({ top, left, right, bottom, delay = 0 }: SparkleProps) {
           fill="#FF6B35"
         />
       </svg>
-    </motion.div>
+      <style>{`
+        @keyframes sparkle-spin {
+          0%   { transform: rotate(0deg)   scale(1);   }
+          50%  { transform: rotate(180deg) scale(1.2); }
+          100% { transform: rotate(360deg) scale(1);   }
+        }
+        .sparkle-anim {
+          animation: sparkle-spin 3s ease-in-out infinite;
+          will-change: transform;
+        }
+      `}</style>
+    </div>
   );
 }

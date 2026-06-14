@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 
 export function WhoWeAre() {
   return (
-    <section className="py-20 px-6 bg-[#F5F5F0]">
+    <section className="py-20 px-6 bg-muted">
       <div className="container mx-auto max-w-6xl">
         <p className="text-xs font-semibold tracking-widest text-muted-foreground mb-6 uppercase">
           Who We Are

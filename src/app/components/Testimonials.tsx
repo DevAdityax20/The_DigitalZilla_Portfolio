@@ -29,13 +29,21 @@ export function Testimonials() {
           <span className="text-2xl">🎙️</span>
         </div>
 
-        {/* Scrolling ticker */}
+        {/* Scrolling ticker – pure CSS for zero JS overhead */}
         <div className="relative mb-16 overflow-hidden border-y border-border py-4">
-          <motion.div
-            className="flex gap-8 whitespace-nowrap"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
+          <style>{`
+            @keyframes ticker-scroll {
+              from { transform: translateX(0); }
+              to   { transform: translateX(-50%); }
+            }
+            .ticker-track {
+              display: flex;
+              width: max-content;
+              animation: ticker-scroll 20s linear infinite;
+              will-change: transform;
+            }
+          `}</style>
+          <div className="ticker-track">
             {[...Array(2)].map((_, gi) => (
               <div key={gi} className="flex gap-8 items-center">
                 {["VIDEO EDITING", "REELS", "BRAND FILMS", "COMMERCIALS", "EVENT COVERAGE", "YOUTUBE CONTENT", "MOTION GRAPHICS"].map(
@@ -51,7 +59,7 @@ export function Testimonials() {
                 )}
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -99,7 +107,7 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
-              className="bg-[#F5F5F0] rounded-2xl p-8"
+              className="bg-muted rounded-2xl p-8"
             >
               <blockquote className="text-base text-foreground leading-relaxed mb-4">
                 "{t.quote}"

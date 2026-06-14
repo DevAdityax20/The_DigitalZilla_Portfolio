@@ -1,5 +1,6 @@
 import { Logo } from './Logo';
 import { Navigation } from './Navigation';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   onNavigate?: (page: string) => void;
@@ -13,12 +14,15 @@ export function Header({ onNavigate }: HeaderProps) {
           <Logo />
         </button>
         <Navigation onNavigate={onNavigate} />
-        <button
-          onClick={() => onNavigate?.("contact")}
-          className="bg-foreground text-background px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity text-sm font-medium"
-        >
-          Get in touch →
-        </button>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <button
+            onClick={() => onNavigate?.("contact")}
+            className="bg-foreground text-background px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity text-sm font-medium"
+          >
+            Get in touch →
+          </button>
+        </div>
       </div>
     </header>
   );

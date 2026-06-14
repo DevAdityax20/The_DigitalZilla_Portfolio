@@ -65,22 +65,14 @@ export function Footer() {
 
             {/* Logo card */}
             <div className="rounded-2xl p-5 flex items-center gap-4 mt-2" style={{ backgroundColor: "#1A1A2E" }}>
-              {/* Colorful geometric logo */}
-              <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-                {/* Diamond / cube shape made of triangles */}
-                <polygon points="26,4 38,20 26,16" fill="#E53935" />
-                <polygon points="26,4 14,20 26,16" fill="#FF6B35" />
-                <polygon points="14,20 26,16 26,36" fill="#FFC107" />
-                <polygon points="38,20 26,16 26,36" fill="#00BCD4" />
-                <polygon points="14,20 26,36 8,32" fill="#3F51B5" />
-                <polygon points="38,20 26,36 44,32" fill="#9C27B0" />
-                <polygon points="8,32 26,36 26,48" fill="#4CAF50" />
-                <polygon points="44,32 26,36 26,48" fill="#2196F3" />
-              </svg>
-              <div className="leading-tight">
-                <p className="text-white font-black tracking-wider text-base uppercase">THE DIGITAL</p>
-                <p className="text-white font-black tracking-wider text-base uppercase">ZILLA</p>
-              </div>
+              <img
+                src="https://res.cloudinary.com/dmloakbty/image/upload/q_auto/f_auto/v1781161522/tdz_logo_new_vgezjw.webp"
+                alt="The Digital Zilla"
+                width={160}
+                height={48}
+                className="object-contain"
+                loading="lazy"
+              />
             </div>
           </div>
 
