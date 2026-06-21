@@ -48,7 +48,7 @@ export function Footer({ onNavigate }: FooterProps) {
   const navLinks = [
     { label: "Home", action: () => onNavigate?.("home") },
     { label: "Services", action: () => { onNavigate?.("home"); setTimeout(() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" }), 100); } },
-    { label: "Work", badge: "10", action: () => { onNavigate?.("home"); setTimeout(() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" }), 100); } },
+    { label: "Work", action: () => { onNavigate?.("home"); setTimeout(() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" }), 100); } },
     { label: "About", action: () => onNavigate?.("about") },
     { label: "Contact", action: () => onNavigate?.("contact") },
   ];

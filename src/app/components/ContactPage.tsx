@@ -311,31 +311,43 @@ export function ContactPage({ onBack }: { onBack: () => void }) {
       </section>
 
       {/* ── MAP ── */}
-      <div className="w-full h-72 md:h-96 relative overflow-hidden">
-        <iframe
-          title="The Digital Zilla Office Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13716.56!2d75.5762!3d31.3260!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5a5747ae15b7%3A0xd9f07d7dc1b6fab0!2sCivil%20Lines%2C%20Jalandhar%2C%20Punjab!5e0!3m2!1sen!2sin!4v1686000000000!5m2!1sen!2sin"
-          width="100%"
-          height="100%"
-          style={{ border: 0, filter: "grayscale(0.2) contrast(1.05)" }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-        {/* "Open in Maps" pill overlay */}
-        <a
-          href="https://maps.google.com/?q=Civil+Lines+Jalandhar+Punjab"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-4 left-4 bg-white shadow-md text-foreground text-xs font-semibold px-4 py-2 rounded-full flex items-center gap-2 hover:shadow-lg transition-shadow"
+      <section className="px-4 sm:px-6 md:px-10 lg:px-16 pb-16 max-w-[1536px] mx-auto">
+        <div
+          className="relative rounded-3xl overflow-hidden shadow-2xl"
+          style={{
+            border: "1px solid rgba(128,128,128,0.15)",
+            background: "var(--background, #fff)",
+            padding: "6px",
+          }}
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1C4.8 1 3 2.8 3 5C3 7.5 7 13 7 13C7 13 11 7.5 11 5C11 2.8 9.2 1 7 1Z" stroke="#FF6B35" strokeWidth="1.5" />
-            <circle cx="7" cy="5" r="1.5" stroke="#FF6B35" strokeWidth="1.5" />
-          </svg>
-          Open in Maps ↗
-        </a>
-      </div>
+          {/* Inner map container with rounded corners */}
+          <div className="relative w-full h-72 md:h-[420px] rounded-[20px] overflow-hidden">
+            <iframe
+              title="The Digital Zilla Office Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13716.56!2d75.5762!3d31.3260!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5a5747ae15b7%3A0xd9f07d7dc1b6fab0!2sCivil%20Lines%2C%20Jalandhar%2C%20Punjab!5e0!3m2!1sen!2sin!4v1686000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: "grayscale(0.2) contrast(1.05)" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            {/* "Open in Maps" pill overlay */}
+            <a
+              href="https://maps.google.com/?q=Civil+Lines+Jalandhar+Punjab"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 left-4 bg-white shadow-md text-foreground text-xs font-semibold px-4 py-2 rounded-full flex items-center gap-2 hover:shadow-lg transition-shadow"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 1C4.8 1 3 2.8 3 5C3 7.5 7 13 7 13C7 13 11 7.5 11 5C11 2.8 9.2 1 7 1Z" stroke="#FF6B35" strokeWidth="1.5" />
+                <circle cx="7" cy="5" r="1.5" stroke="#FF6B35" strokeWidth="1.5" />
+              </svg>
+              Open in Maps ↗
+            </a>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
