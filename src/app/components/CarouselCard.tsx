@@ -31,7 +31,7 @@ export function CarouselCard({ video, label, index, relPos, cardW, cardH, should
     const el = videoRef.current;
     if (!el) return;
     if (shouldPlay) {
-      el.play().catch(() => {});
+      el.play().catch(() => { });
     } else {
       el.pause();
     }
@@ -44,7 +44,7 @@ export function CarouselCard({ video, label, index, relPos, cardW, cardH, should
 
   return (
     <div
-      className="absolute rounded-[18px] overflow-hidden select-none cursor-pointer"
+      className={`absolute rounded-[18px] overflow-hidden select-none cursor-pointer carousel-card-shadow ${isFront ? 'is-front' : ''}`}
       style={{
         width: cardW,
         height: cardH,
@@ -52,9 +52,6 @@ export function CarouselCard({ video, label, index, relPos, cardW, cardH, should
         left: '50%',
         marginLeft: -cardW / 2,
         marginTop: -cardH / 2,
-        boxShadow: isFront
-          ? '0 24px 60px rgba(0,0,0,0.55)'
-          : '0 10px 28px rgba(0,0,0,0.28)',
         ...style,
       }}
       onClick={handleClick}

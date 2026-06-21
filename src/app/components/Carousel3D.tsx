@@ -28,57 +28,57 @@ function useCarouselConfig() {
 
   if (vw < 480) {
     return {
-      cardW: 130, cardH: 200,
-      stepX: 108,
+      cardW: 180, cardH: 280,
+      stepX: 145,
       rotatePerStep: 10,
       scalePerStep: 0.08,
-      tzPerStep: 45,
+      tzPerStep: 55,
       visibleRange: 2.8,
-      maskWidth: '14%',        // narrow masks — don't eat the screen
-      maskOpacityStop: '30%',  // fade starts later
-      containerH: 260,
-      perspective: 700,
+      maskWidth: '12%',        // narrow masks — don't eat the screen
+      maskOpacityStop: '25%',  // fade starts later
+      containerH: 400,
+      perspective: 800,
     };
   }
   if (vw < 768) {
     return {
-      cardW: 155, cardH: 235,
-      stepX: 130,
+      cardW: 210, cardH: 320,
+      stepX: 170,
       rotatePerStep: 11,
       scalePerStep: 0.075,
-      tzPerStep: 50,
+      tzPerStep: 60,
       visibleRange: 3.2,
-      maskWidth: '16%',
-      maskOpacityStop: '35%',
-      containerH: 300,
-      perspective: 900,
+      maskWidth: '14%',
+      maskOpacityStop: '30%',
+      containerH: 470,
+      perspective: 1000,
     };
   }
   if (vw < 1024) {
     return {
-      cardW: 180, cardH: 270,
-      stepX: 155,
+      cardW: 250, cardH: 380,
+      stepX: 205,
       rotatePerStep: 13,
       scalePerStep: 0.072,
-      tzPerStep: 58,
+      tzPerStep: 70,
       visibleRange: 3.8,
-      maskWidth: '20%',
-      maskOpacityStop: '40%',
-      containerH: 340,
-      perspective: 1000,
+      maskWidth: '18%',
+      maskOpacityStop: '35%',
+      containerH: 530,
+      perspective: 1100,
     };
   }
   return {
-    cardW: 200, cardH: 300,
-    stepX: 172,
+    cardW: 280, cardH: 420,
+    stepX: 230,
     rotatePerStep: 14,
     scalePerStep: 0.072,
-    tzPerStep: 60,
+    tzPerStep: 75,
     visibleRange: 4.5,
-    maskWidth: '26%',
-    maskOpacityStop: '45%',
-    containerH: 360,
-    perspective: 1100,
+    maskWidth: '24%',
+    maskOpacityStop: '40%',
+    containerH: 580,
+    perspective: 1300,
   };
 }
 
@@ -186,17 +186,15 @@ export function Carousel3D() {
       .sort((a, b) => Math.abs(b.rel) - Math.abs(a.rel));
   }, [currentCenter, n, cfg.visibleRange]);
 
-  // Smooth multi-stop fade mask gradient
+  // Smooth multi-stop fade mask gradient — uses var(--background) so it adapts to dark/light
   const maskGradientR = `linear-gradient(to right,
-    var(--background,#fff) 0%,
-    var(--background,#fff) ${cfg.maskOpacityStop},
-    rgba(255,255,255,0.5) 72%,
+    var(--background) 0%,
+    var(--background) ${cfg.maskOpacityStop},
     transparent 100%)`;
 
   const maskGradientL = `linear-gradient(to left,
-    var(--background,#fff) 0%,
-    var(--background,#fff) ${cfg.maskOpacityStop},
-    rgba(255,255,255,0.5) 72%,
+    var(--background) 0%,
+    var(--background) ${cfg.maskOpacityStop},
     transparent 100%)`;
 
   return (
@@ -218,7 +216,7 @@ export function Carousel3D() {
       {/* 3-D stage */}
       <div
         className="absolute inset-0"
-        style={{ perspective: `${cfg.perspective}px`, perspectiveOrigin: '50% 48%' }}
+        style={{ perspective: `${cfg.perspective}px`, perspectiveOrigin: '50% 42%' }}
       >
         <div
           className="absolute"
