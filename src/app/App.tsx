@@ -170,7 +170,7 @@ export default function App() {
           <Testimonials />
           <PortfolioSection />
           <TeamSection />
-          <Footer />
+          <Footer onNavigate={handleNavigate} />
         </>
       )}
     </div>
